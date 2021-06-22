@@ -34,7 +34,7 @@ async function getServerStates(includePlayers = false) {
 
       cachios.get(`https://${sInfo.owner}-${sInfo.id}.users.cfx.re/${sInfo.endpoint}`, {
         ttl: 1 * 60,
-        timeout: 3000,
+        timeout: 5000,
       }).then((sRes) => {
         if (sRes.status !== 200) {
           if (idx === sEndpoints.servers.length - 1) return resolve(serverInfo);
