@@ -1,0 +1,28 @@
+.center {
+  text-align: center;
+}
+
+body {
+  font: 14px "Courier", monospace;
+  background-color: black;
+  color: #00FF00;
+}
+
+a {
+  color: #00FF00;
+}
+
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+td, th {
+  border: 1px solid #1F1F1F;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #070707;
+}

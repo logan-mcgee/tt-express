@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tycoon Lagoon - Home</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta http-equiv="refresh" content="15" >
+  </head>
+  <body>
+    <div class="center">
+      <h1>Welcome to Tycoon Lagoon</h1>
+      <h3>A simple & lightweight way of accessing information related to Transport Tycoon</h3>
+      <% if (serverData) { %>
+        <h2>There are <%= serverData.totalPlayers %> players on <%= serverData.serversAlive %> servers</h2>
+        <center>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Connect</th>
+              <th>Player Count</th>
+            </tr>
+            <% for (const server of serverData.states) { %>
+              <tr>
+                <td><%= server.name %></td>
+                <td><%= server.alive ? 'online ✔' : 'offline ❌' %></td>
+                <td><a href="fivem://connect/<%= server.id %>">fivem://connect/<%= server.id %></a></td>
+                <td><%= server.extraData.playerCount || 0 %>/<%= server.extraData.limit || 0 %></td>
+              </tr>
+            <% } %>
+          </table>
+        </center>
+        <p>Fun fact: this page render took ~<%= Math.ceil(new Date().getTime() - renderStart)%>ms </p>
+      <% } %>
+    </div>
+  </body>
+</html>
