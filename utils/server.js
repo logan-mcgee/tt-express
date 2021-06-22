@@ -2,7 +2,7 @@ const cachios = require('cachios');
 
 async function getServerEndpoints() {
   return cachios.get('https://cdn.tycoon.community/servers.json', {
-    ttl: 5 * 60 //? 5 minutes
+    ttl: 10 * 60
   }).then((resp) => {
     return resp.data;
   });
@@ -33,7 +33,7 @@ async function getServerStates(includePlayers = false) {
       };
 
       cachios.get(`https://${sInfo.owner}-${sInfo.id}.users.cfx.re/${sInfo.endpoint}`, {
-        ttl: 5 * 60, //? 5 minutes
+        ttl: 1 * 60,
         timeout: 3000,
       }).then((sRes) => {
         if (sRes.status !== 200) {
