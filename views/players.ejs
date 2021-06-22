@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tycoon Express - Players</title>
+    <link rel='stylesheet' href='/stylesheets/main.css' />
+    <link rel='stylesheet' href='/stylesheets/players.css' />
+    <meta http-equiv="refresh" content="30" >
+  </head>
+  <body>
+    <div class="center">
+      <h1>Tycoon Express</h1>
+      <h2> <a href="/">Home</a> <a href="/players">Players</a></h2>
+      <% if (serverData) { %>
+        <h3>There are <%= serverData.totalPlayers %> players on <%= serverData.serversAlive %> servers</h3>
+        <center>
+          <% for (const server of serverData.states) { %>
+            <table>
+              <tr>
+                <th><input id="<%= server.id %>-input" type="checkbox"><%= server.name %> - <%= server.extraData.playerCount || 0 %>/<%= server.extraData.limit || 0 %></th>
+                <th>vRP ID</th>
+                <th>Job</th>
+                <th>Staff</th>
+                <th>Donator</th>
+              </tr>
+              <% if (server.extraData?.players?.length > 0) { %>
+                <% for (const player of server.extraData.players) { %>
+                  <tr class="<%= server.id %>-style" style="display: none;">
+                    <td><%= player[0] %></td>
+                    <td><%= player[2] %></td>
+                    <td><%= player[5] !== '' ? player[5] : 'Unemployed' %></td>
+                    <td><%= player[4] ? '🚓' : '❌' %></td>
+                    <td><%= player[6] ? '💸' : '❌' %></td>
+                  </tr>
+                <% } %>
+              <% } else { %>
+                <tr class="<%= server.id %>-style" style="display: none;">
+                  <td>No Players :(</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              <% } %>
+            </table>
+          <% } %>
+        </center>
+        <p>Fun fact: this page render took ~<%= Math.ceil(new Date().getTime() - renderStart)%>ms </p>
+        <script>
+          <% for (const server of serverData.states) { %>
+            const checkbox_<%= server.id %> = document.getElementById("<%= server.id %>-input")
+
+            checkbox_<%= server.id %>.addEventListener('change', (event) => {
+              const elements = document.getElementsByClassName("<%= server.id %>-style")
+              if (event.currentTarget.checked) {
+                for (const element of elements) {
+                  element.style.display = null
+                }
+              } else {
+                for (const element of elements) {
+                  element.style.display = "none"
+                }
+              }
+            })
+          <% } %>
+        </script>
+      <% } %>
+    </div>
+  </body>
+</html>

@@ -48,7 +48,7 @@ async function getServerStates(includePlayers = false) {
         serverInfo.states[idx].extraData = {
           players: includePlayers ? sRes.data.players : null,
           dxp: sRes.data.server.dxp,
-          uptime: sRes.data.server.dxp,
+          uptime: sRes.data.server.uptime,
           playerCount: sRes.data.players.length,
           limit: sRes.data.server.limit
         };

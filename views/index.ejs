@@ -2,29 +2,60 @@
 <html>
   <head>
     <title>Tycoon Express - Home</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/main.css' />
+    <link rel='stylesheet' href='/stylesheets/index.css' />
     <meta http-equiv="refresh" content="30" >
   </head>
+  <% 
+    function millisecondsToStr(milliseconds) {
+      var temp = Math.floor(milliseconds / 1000);
+      var days = Math.floor((temp %= 31536000) / 86400);
+      if (days) {
+        return days + 'd'
+      }
+      var hours = Math.floor((temp %= 86400) / 3600);
+      if (hours) {
+        return hours + 'h'
+      }
+      var minutes = Math.floor((temp %= 3600) / 60);
+      if (minutes) {
+        return minutes + 'm'
+      }
+      var seconds = temp % 60;
+      if (seconds) {
+        return seconds + 's'
+      }
+      return 'less than a second'; //'just now' //or other string you like;
+    }
+  %>
   <body>
     <div class="center">
       <h1>Welcome to Tycoon Express</h1>
-      <h3>A simple & lightweight way of accessing information related to Transport Tycoon</h3>
+      <h2> <a href="/">Home</a> <a href="/players">Players</a></h2>
       <% if (serverData) { %>
-        <h2>There are <%= serverData.totalPlayers %> players on <%= serverData.serversAlive %> servers</h2>
+        <h3>There are <%= serverData.totalPlayers %> players on <%= serverData.serversAlive %> servers</h3>
         <center>
           <table>
             <tr>
               <th>Name</th>
               <th>Status</th>
+              <th>Uptime</th>
               <th>Connect</th>
               <th>Player Count</th>
+              <th>DXP</th>
             </tr>
             <% for (const server of serverData.states) { %>
               <tr>
                 <td><%= server.name %></td>
                 <td><%= server.alive ? 'online ✔' : 'offline ❌' %></td>
+                <td><%= server.alive ? server.extraData.uptime : '0h 0m' %></td>
                 <td><a href="fivem://connect/<%= server.id %>">fivem://connect/<%= server.id %></a></td>
                 <td><%= server.extraData.playerCount || 0 %>/<%= server.extraData.limit || 0 %></td>
+                <% if (server.alive) { %>
+                  <td><%= server.extraData.dxp[0] ? `📈 ${server.extraData.dxp[1]} - ${millisecondsToStr(server.extraData.dxp[2])}` : '😢 inactive' %></td>
+                <% } else { %>
+                  <td>😢 inactive</td>
+                <% } %>
               </tr>
             <% } %>
           </table>

@@ -22,9 +22,9 @@ routes.forEach((fN) => {
   const route = fN.replace('.js', '');
 
   const router = require(`./routes/${route}`);
-  app.use(route === 'index' ? '/' : route, router);
+  app.use(route === 'index' ? '/' : '/' + route, router);
 
-  console.log(`[EXPRESS] loaded route ${route}`);
+  console.log(`[EXPRESS] loaded route ${route} ${route === 'index' ? '/' : '/' + route}`);
 });
 
 // catch 404 and forward to error handler
@@ -45,5 +45,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-require('./utils/server');
